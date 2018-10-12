@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class Database {
 
     private String databaseAddress;
+    private boolean heroku = false;
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
@@ -15,7 +16,7 @@ public class Database {
 
     public Connection getConnection() throws SQLException {
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        if (dbUrl != null && dbUrl.length() > 0) {
+        if (heroku && dbUrl != null && dbUrl.length() > 0) {
             Connection conn = DriverManager.getConnection(dbUrl);
             PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS Kysymys ("
                     + "id SERIAL PRIMARY KEY,"
@@ -32,20 +33,10 @@ public class Database {
                     + "FOREIGN KEY (kysymysId) REFERENCES Kysymys(id)"
                     + ")"); 
             stmt.executeUpdate();
-            stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS Kurssi ("
-                    + "id SERIAL PRIMARY KEY,"
-                    + "nimi VARCHAR(255)"
-                    + ")"); 
-            stmt.executeUpdate();
-            stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS Aihe ("
-                    + "id SERIAL PRIMARY KEY,"
-                    + "nimi VARCHAR(255),"
-                    + "kurssi VARCHAR(255)"
-                    + ")"); 
-            stmt.executeUpdate();
             stmt.close();
             return conn;
         }
+        System.out.println("Kaikki hyvin");
         return DriverManager.getConnection(databaseAddress);
     }
 }

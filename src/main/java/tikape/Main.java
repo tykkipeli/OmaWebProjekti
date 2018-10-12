@@ -1,5 +1,6 @@
 package tikape;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,8 @@ public class Main {
         if (System.getenv("PORT") != null) {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
-        Database database = new Database("jdbc:sqlite:kysymykset.db");
+        File tiedosto = new File("db", "kysymys.db");
+        Database database = new Database("jdbc:sqlite:" + tiedosto.getAbsolutePath());
         KysymysDao kysymykset = new KysymysDao(database);
         VastausDao vastaukset = new VastausDao(database);
         
