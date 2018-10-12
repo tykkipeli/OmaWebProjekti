@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class Database {
 
     private String databaseAddress;
-    private boolean heroku = false;
+    private boolean heroku = true;
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
