@@ -36,7 +36,6 @@ public class Database {
             stmt.close();
             return conn;
         }
-        System.out.println("Kaikki hyvin");
         return DriverManager.getConnection(databaseAddress);
     }
 }
