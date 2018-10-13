@@ -56,7 +56,7 @@ public class Main {
         
         Spark.post("/sivu", (req, res) -> {
             Kysymys kysymys = new Kysymys(-1, req.queryParams("kurssi"),req.queryParams("aihe"),req.queryParams("kysymysteksti"));
-            kysymykset.saveOrUpdate(kysymys);
+            if (!kysymys.getAihe().isEmpty() && !kysymys.getKurssi().isEmpty() && !kysymys.getKysymysteksti().isEmpty())kysymykset.saveOrUpdate(kysymys);
             res.redirect("/sivu");
             return "";
         });
@@ -65,7 +65,7 @@ public class Main {
             boolean totuus = true;
             if (req.queryParams("totta") == null) totuus = false;
             Vastaus vastaus = new Vastaus(-1, Integer.parseInt(req.params(":id")),req.queryParams("vastausteksti"),totuus);
-            vastaukset.saveOrUpdate(vastaus);
+            if (!vastaus.getVastausteksti().isEmpty())vastaukset.saveOrUpdate(vastaus);
             res.redirect("/vastaus/"+req.params(":id"));
             return "";
         });
